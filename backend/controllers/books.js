@@ -1,12 +1,8 @@
 const Book = require('../models/book');
-const router =express.Router();
-
-const bookCtrl = require('../controlles/books');
-
 
 exports.createBook = (req, res, next) => {
     const book = new Book({
-    userId: req.body.auth,
+    userId: req.auth.userId,
     title: req.body.title,
     author: req.body.author,
     imageUrl: req.body.imageUrl,
@@ -14,7 +10,7 @@ exports.createBook = (req, res, next) => {
     genre: req.body.genre,
     ratings: [
         {
-            userId: req.body.auth,
+            userId: req.auth.userId,
             grade: req.body.grade
         }
     ],
@@ -53,7 +49,7 @@ exports.getOneBook = (req, res, next) => {
 
 exports.modifyBook = (req, res, next) => {
     const book = new Book({
-    userId: req.body.auth,
+    userId: req.auth.userId,
     title: req.body.title,
     author: req.body.author,
     imageUrl: req.body.imageUrl,
@@ -61,7 +57,7 @@ exports.modifyBook = (req, res, next) => {
     genre: req.body.genre,
     ratings: [
         {
-            userId: req.body.auth,
+            userId: req.auth.userId,
             grade: req.body.grade
         }
     ],
@@ -98,20 +94,6 @@ exports.deleteBook = (req, res, next) => {
   );
 };
 
-router.get('/' +
-  '', (req, res, next) => {
-  Book.find().then(
-    (book) => {
-      res.status(200).json(book);
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
-};
 
 exports.getAllBooks  = (req, res, next) => {
   Book.find().then(
