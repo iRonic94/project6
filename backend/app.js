@@ -4,7 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Books = require('./models/book');
+const booksRoutes = require('./routes/books');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
@@ -17,7 +18,7 @@ mongoose.connect('mongodb+srv://admin:admin@clusterpractice.lzalvcr.mongodb.net/
     console.error(error);
   });
 
-app.use(express.json());
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,7 +26,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+
+
 app.use(bodyParser.json());
 
+app.use('/api/books', booksRoutes);
+app.use('/api/auth', userRoutes);
 
 module.exports = app;
