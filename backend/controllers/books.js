@@ -1,22 +1,22 @@
 const Book = require('../models/book');
 
 exports.createBook = (req, res, next) => {
-    const book = new Book({
-    userId: req.auth.userId,
+  const book = new Book({
+    userId: req.body.userId,
     title: req.body.title,
     author: req.body.author,
     imageUrl: req.body.imageUrl,
     year: req.body.year,
     genre: req.body.genre,
     ratings: [
-        {
-            userId: req.auth.userId,
-            grade: req.body.grade
-        }
+      {
+        userId: req.body.userId,
+        grade: req.body.grade
+      }
     ],
     averageRating: req.body.averageRating
-    });
-    book.save().then(
+  });
+  book.save().then(
     () => {
       res.status(201).json({
         message: 'Post saved successfully!'
@@ -48,7 +48,7 @@ exports.getOneBook = (req, res, next) => {
 };
 
 exports.modifyBook = (req, res, next) => {
-    const book = new Book({
+  const book = new Book({
     userId: req.auth.userId,
     title: req.body.title,
     author: req.body.author,
@@ -56,14 +56,14 @@ exports.modifyBook = (req, res, next) => {
     year: req.body.year,
     genre: req.body.genre,
     ratings: [
-        {
-            userId: req.auth.userId,
-            grade: req.body.grade
-        }
+      {
+        userId: req.auth.userId,
+        grade: req.body.grade
+      }
     ],
     averageRating: req.body.averageRating
-    });
-  Book.updateOne({_id: req.params.id}, book).then(
+  });
+  Book.updateOne({ _id: req.params.id }, book).then(
     () => {
       res.status(201).json({
         message: 'Book updated successfully!'
@@ -79,7 +79,7 @@ exports.modifyBook = (req, res, next) => {
 }
 
 exports.deleteBook = (req, res, next) => {
-  Book.deleteOne({_id: req.params.id}).then(
+  Book.deleteOne({ _id: req.params.id }).then(
     () => {
       res.status(200).json({
         message: 'Deleted!'
@@ -95,7 +95,7 @@ exports.deleteBook = (req, res, next) => {
 };
 
 
-exports.getAllBooks  = (req, res, next) => {
+exports.getAllBooks = (req, res, next) => {
   Book.find().then(
     (books) => {
       res.status(200).json(books);
