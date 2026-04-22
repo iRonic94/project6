@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const booksRoutes = require('./routes/books');
 const userRoutes = require('./routes/user');
@@ -27,6 +28,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+//allow which static folder to serve
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(bodyParser.json());
 
