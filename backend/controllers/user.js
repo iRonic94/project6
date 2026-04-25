@@ -32,17 +32,16 @@ exports.login = (req, res, next) => {
         (user) => {
             if (!user) {
                 return res.status(401).json({
-                    error: new Error('User not found!')
+                    error: 'User not found!'
                 });
             }
-
             //if the user does exist we compare the password typed in with the hashed value from db
             bcrypt.compare(req.body.password, user.password).then(
                 (valid) => {
                     console.log("PASSWORD VALID:", valid);
                     if (!valid) {
                         return res.status(401).json({
-                            error: new Error('Incorrect password')
+                            error: 'Incorrect password!'
                         });
                     }
                     //valid
@@ -55,12 +54,12 @@ exports.login = (req, res, next) => {
                         token: token
                     });
                 }
-                //not valid
+                //bcrypt not valid
             ).catch(
                 (error) => {
                     console.error("BCRYPT ERROR:", error);
                     res.status(500).json({
-                        error: error
+                        error: error.message
                     });
                 }
             );
@@ -70,7 +69,7 @@ exports.login = (req, res, next) => {
         (error) => {
             console.error("USER FIND ERROR:", error);
             res.status(500).json({
-                error: error
+                error: error.message
             });
         }
     );
